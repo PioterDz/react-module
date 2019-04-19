@@ -1,3 +1,19 @@
+var Movie = React.createClass({
+    propTypes: {
+        list: React.PropTypes.object.isRequired,
+    },
+
+    render: function() {
+        return (
+            React.createElement('li', {key: movie.id},
+                React.createElement('h2', {}, movie.title),
+                React.createElement('p', {}, movie.desc),
+                React.createElement('img', {src: movie.image})
+            )
+        )
+    }
+})
+
 var movies = [
     {
         id: 1,
@@ -31,23 +47,6 @@ var movies = [
     }
 ]
 
-
-var moviesElements = movies.map(function(movie) {
-    return React.createElement('li', {key: movie.id},
-        React.createElement('h2', {}, movie.title),
-        React.createElement('p', {}, movie.desc),
-        React.createElement('img', {src: movie.image})
-    );
-});
-
-var element =
-    React.createElement('div', {},
-        React.createElement('h1', {}, 'Lista filmów'),
-        React.createElement('ul', {}, moviesElements)
-    );
+var element = React.createElement(Movie, {key: movie.id});
 
 ReactDOM.render(element, document.getElementById('app'));
-
-
-
-
