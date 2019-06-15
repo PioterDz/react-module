@@ -31,26 +31,89 @@ var movies = [
     }
 ]
 
-var Movie = React.createClass({
+var Movies = React.createClass({
     propTypes: {
-        movie: React.PropTypes.object.isRequired,
+        items: React.PropTypes.array.isRequired
+    },
+
+    render: function() {
+        var moviesList = this.props.items.map(function(elem){
+            return React.createElement(OneOfMovies, {
+                key: elem.id,
+                title: elem.title,
+                desc: elem.desc,
+                image: elem.image
+            }, );
+        });
+        return (
+            React.createElement('div', {className: 'listOfMovies'},
+                React.createElement('h1', {}, 'List of movies'),
+                React.createElement('ul', {}, moviesList)
+            )
+        );
+    }
+});
+
+var OneOfMovies = React.createClass({
+    propTypes: {
+        title: React.PropTypes.string.isRequired,
+        desc: React.PropTypes.string.isRequired,
+        image: React.PropTypes.string.isRequired
     },
 
     render: function() {
         return (
-            React.createElement('h1', {}, 'Lista filmów'),
-            React.createElement('ul', {}, 
-                React.createElement('li', {key: movie.id},
-                    React.createElement('h2', {}, movie.title),
-                    React.createElement('p', {}, movie.desc),
-                    React.createElement('img', {src: movie.image})
+            React.createElement('li', {},
+                React.createElement(MovieTitle, {title: this.props.title},
+                ),
+                React.createElement(MovieDesc, {desc: this.props.desc},
+                ),
+                React.createElement(MovieImage, {image: this.props.image},
                 )
             )
+        )
+    }
+});
+
+var MovieTitle = React.createClass({
+    propTypes: {
+        title: React.PropTypes.string.isRequired
+    },
+
+    render: function() {
+        return (
+            React.createElement('h2', {}, this.props.title)
+        )
+    }
+})
+
+var MovieDesc = React.createClass({
+    propTypes: {
+        desc: React.PropTypes.string.isRequired
+    },
+
+    render: function() {
+        return (
+            React.createElement('p', {}, this.props.desc)
+        )
+    }
+})
+
+var MovieImage = React.createClass({
+    propTypes: {
+        image: React.PropTypes.string.isRequired
+    },
+
+    render: function() {
+        return (
+            React.createElement('img', {
+                src: this.props.image
+            })
         )
     }
 })
 
 
-var element = React.createElement(Movie, {movie: movie});
+var renderMovie = React.createElement(Movies, {items: movies});
 
-ReactDOM.render(element, document.getElementById('app'));
+ReactDOM.render(renderMovie, document.getElementById('app'));
